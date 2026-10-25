@@ -7,6 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        shutter: {
+          bg: '#F5F5F0',
+          card: '#FBFBFA',
+          dark: '#1c1917',
+          black: '#0c0a09',
+          border: '#e7e5e4',
+          muted: '#57534e',
+          accent: '#FF3B30',
+          whatsapp: '#25D366',
+        },
         studio: {
           dark: '#1A1A1A',
           gold: '#C89B3C',
@@ -21,23 +31,19 @@ export default {
           muted: '#F6F5F2',
           border: '#E8E5DF',
         },
-        hotc: {
-          dark: '#1A1A1A',
-          body: '#2D2D2D',
-          muted: '#707070',
-          light: '#9E9E9E',
-          border: '#E0E0E0',
-        }
       },
       fontFamily: {
+        sans: ['Outfit', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
         cormorant: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Inter"', '"Poppins"', 'sans-serif'],
         inter: ['"Inter"', 'sans-serif'],
       },
       letterSpacing: {
         'widest-hotc': '0.18em',
         'super-wide': '0.25em',
+        'editorial': '0.3em',
+        'ultra-wide': '0.5em',
       }
     },
   },

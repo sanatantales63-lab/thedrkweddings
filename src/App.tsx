@@ -1,26 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
+import { Sidebar } from './components/Sidebar';
 import { Hero } from './components/Hero';
-import { ModernApproach } from './components/ModernApproach';
-import { CuratedPortfolio } from './components/CuratedPortfolio';
-import { CuratedStories } from './components/CuratedStories';
-import { FeaturedFilms } from './components/FeaturedFilms';
-import { EditorialGallery } from './components/EditorialGallery';
-import { Philosophy } from './components/Philosophy';
-import { InquirySection } from './components/InquirySection';
+import { TheManifesto } from './components/TheManifesto';
+import { HorizontalSlider } from './components/HorizontalSlider';
+import { MagazineAbout } from './components/MagazineAbout';
+import { SpotlightGrid } from './components/SpotlightGrid';
+import { Lookbook } from './components/Lookbook';
+import { Testimonials } from './components/Testimonials';
+import { VideoSection } from './components/VideoSection';
+import { Packages } from './components/Packages';
+import { FAQSection } from './components/FAQSection';
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { VideoModal } from './components/VideoModal';
-import { StoryModal } from './components/StoryModal';
 import { GalleryLightbox } from './components/GalleryLightbox';
-import type { WeddingFilm, WeddingStory, GalleryItem } from './data/weddingData';
+import type { WeddingFilm, GalleryItem } from './data/weddingData';
 import { FEATURED_FILMS } from './data/weddingData';
 
 export function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedFilm, setSelectedFilm] = useState<WeddingFilm | null>(null);
-  const [selectedStory, setSelectedStory] = useState<WeddingStory | null>(null);
   const [selectedGalleryItem, setSelectedGalleryItem] = useState<GalleryItem | null>(null);
 
-  // Phase 1: IntersectionObserver for .reveal elements
+  // IntersectionObserver for staggered .reveal animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -58,36 +62,65 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#1A1A1A] antialiased selection:bg-[#F0EBE3] selection:text-[#1A1A1A]">
-      {/* 1. Header Navigation (Exact House On The Clouds Layout) */}
-      <Navbar onOpenContact={handleOpenContact} />
+    <div className="min-h-screen bg-[#F5F5F0] text-stone-900 selection:bg-stone-900 selection:text-stone-100 overflow-x-hidden font-sans">
+      {/* 1. Header Navigation matching Shutterday */}
+      <Navbar
+        onMenuClick={() => setIsSidebarOpen(true)}
+        onOpenContact={handleOpenContact}
+      />
 
-      {/* 2. Hero Full-Bleed 100vh Banner (HOTC Section 1) */}
-      <Hero onPlayFilm={handlePlayHeroReel} />
+      {/* 2. Slide-out Drawer Navigation */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
 
-      {/* 3. A Modern Approach to an Age Old Tradition (HOTC Section 2 with Unique Parting Photos) */}
-      <ModernApproach />
+      {/* Main Experience Stream */}
+      <main>
+        {/* Hero Fullscreen Cinema Banner */}
+        <Hero onPlayFilm={handlePlayHeroReel} />
 
-      {/* 4. The Portfolios & Stories Gallery (Human Editorial Showcase) */}
-      <CuratedPortfolio onOpenLightbox={setSelectedGalleryItem} />
+        {/* The DRK Manifesto */}
+        <TheManifesto />
 
-      {/* 5. Featured Stories (HOTC Section 4: Featured) */}
-      <CuratedStories onSelectStory={setSelectedStory} />
+        {/* Seamless Horizontal Visual Flow Strip */}
+        <HorizontalSlider />
 
-      {/* 6. Award Winning Films (HOTC Sections 5 & 6: Award Winning Films) */}
-      <FeaturedFilms onSelectFilm={setSelectedFilm} />
+        {/* Magazine About: Editorial • Volume 01 ("the unseen poetry.") */}
+        <MagazineAbout />
 
-      {/* 7. Photography (HOTC Section 7: The Wild Ones & Curated Archive) */}
-      <EditorialGallery onOpenLightbox={setSelectedGalleryItem} />
+        {/* Spotlight Grid: Asymmetric Signature Moments */}
+        <SpotlightGrid onOpenLightbox={setSelectedGalleryItem} />
 
-      {/* 8. The DRK Signature (HOTC Section 8: Signature Editorial Offering) */}
-      <Philosophy />
+        {/* The Lookbook: Curated Portfolio 2026 */}
+        <Lookbook
+          onSelectCategory={() => {
+            const el = document.getElementById('spotlight');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
+        />
 
-      {/* 9. Contact Us / Get In Touch (HOTC Section 9: Inquiries) */}
-      <InquirySection />
+        {/* Real Client Praise & Testimonials */}
+        <Testimonials />
 
-      {/* 10. Minimalist Editorial Footer (HOTC Footer) */}
+        {/* Cinematic Video Showcase ("WATCH Magic.") */}
+        <VideoSection onPlayFilm={(film) => setSelectedFilm(film)} />
+
+        {/* Collections & Investment (Packages) */}
+        <Packages />
+
+        {/* Common Inquiries FAQ Section */}
+        <FAQSection />
+
+        {/* Contact & Date Reservation Hero */}
+        <ContactSection />
+      </main>
+
+      {/* Shutterday Minimalist Stone Footer */}
       <Footer />
+
+      {/* Floating WhatsApp Quick-Chat Widget */}
+      <FloatingWhatsApp />
 
       {/* Video Modal Player (YouTube @thedrkstudio) */}
       <VideoModal
@@ -95,13 +128,7 @@ export function App() {
         onClose={() => setSelectedFilm(null)}
       />
 
-      {/* Story Photo Reader Modal */}
-      <StoryModal
-        story={selectedStory}
-        onClose={() => setSelectedStory(null)}
-      />
-
-      {/* Gallery Single Photo Lightbox */}
+      {/* Gallery Photo Lightbox */}
       <GalleryLightbox
         item={selectedGalleryItem}
         onClose={() => setSelectedGalleryItem(null)}

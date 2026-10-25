@@ -317,16 +317,152 @@ export const INSTAGRAM_HIGHLIGHTS = [
   { title: 'Client Reviews', count: '5.0 ★ Rated', tag: 'Testimonials' },
 ];
 
+export const PACKAGES_DATA = [
+  {
+    id: 'pkg-prewedding',
+    tag: 'Collection 01',
+    title: 'Pre-Wedding & Romance',
+    price: 'Bespoke Quote',
+    duration: '1 Day Shoot',
+    features: [
+      'Full Day Location Shoot (Sunrise to Sunset)',
+      '50+ High-Resolution Specially Retouched Pictures',
+      '1:30 - 2:00 min 4K Cinematic Teaser Film',
+      'One Premium Editorial Couple Reel for Instagram',
+      'Drone Aerial Perspectives & Scenic Framing',
+      'Private High-Speed Online Gallery Delivery',
+    ],
+    image: '/assets/photos/gallery/luxury-wedding-moments-jaisalmer-desert.jpg',
+    color: 'bg-stone-900',
+    dark: true,
+    featured: true,
+    starred: true,
+  },
+  {
+    id: 'pkg-standard',
+    tag: 'Collection 02 • Most Loved',
+    title: 'DRK Standard Collection',
+    price: 'Bespoke Quote',
+    duration: '3 Days Shoot',
+    features: [
+      'Coverage for Mehendi, Sangeet, Wedding & Reception',
+      'Unlimited High-Resolution Pictures Captured as per Events',
+      '70 Fine-Art Masterpieces Specially Hand-Retouched',
+      '30-35 mins Full Cinematic Heirloom Documentary Film',
+      'One Cinematic 4K Teaser (2-3 mins) & 2 Social Reels',
+      'Two 20 Sheets (40 Pages) Handcrafted Canvera Albums',
+      'All Raw + Color-Graded Files Delivered via Private Cloud',
+    ],
+    image: '/assets/photos/stories/mudit-muskan/01_01.jpg',
+    color: 'bg-white',
+    dark: false,
+    featured: true,
+    starred: true,
+  },
+  {
+    id: 'pkg-classic',
+    tag: 'Collection 03 • Royal Luxury',
+    title: 'DRK Royal Classic',
+    price: 'Bespoke Quote',
+    duration: '4-5 Days Shoot',
+    features: [
+      'Complete Multi-Day Royal Destination Wedding Coverage',
+      'Dual 4K Drone Operators (Wedding, Haldi & Reception)',
+      '80 Specially Hand-Retouched Fine-Art Gallery Prints',
+      '35-40 mins Grand Cinema Feature Film with Dolby Audio',
+      'One Cinematic Trailer (2-3 mins) + 3 High-Energy Reels',
+      'Two 20 Sheets (40 Pages) Handcrafted Leather Canvera Albums',
+      'Custom Hard Drive with All Raw 4K Footage & Master Edits',
+    ],
+    image: '/assets/photos/gallery/best-wedding-photographer-rajasthan-umaid-bhawan.jpg',
+    color: 'bg-[#FBFBFA]',
+    dark: false,
+    featured: false,
+    starred: true,
+  },
+];
+
+export const FAQS_DATA = [
+  {
+    id: 'faq-1',
+    question: 'Are we willing to travel for your wedding?',
+    answer: 'Absolutely. While rooted in Hazaribagh & Jharkhand, our cinema and photography team travels across the globe—from royal heritage palaces in Rajasthan (Jaipur, Udaipur, Jodhpur) to beach destinations in Goa, Kerala, and international venues. We document love wherever your journey unfolds.',
+  },
+  {
+    id: 'faq-2',
+    question: 'What are the main deliverables you provide?',
+    answer: 'Photos: You receive all color-corrected high-resolution images in a private online cloud gallery, along with 70–80 hand-retouched fine-art portraits and two bespoke 40-page Canvera heirloom albums. Videos: A 2–3 minute cinematic trailer, 30–45 second Instagram reels, and a 30–40 minute full documentary wedding film with master studio sound design.',
+  },
+  {
+    id: 'faq-3',
+    question: 'How many types of packages do you offer?',
+    answer: 'We offer flexible collections tailored to your celebration scale: Pre-Wedding, Standard (3-Day), Classic Royal (4-5 Day), and Bespoke Destination Collections. Every collection can be adapted to your unique rituals and venue requirements.',
+  },
+  {
+    id: 'faq-4',
+    question: 'When can we expect the final delivery?',
+    answer: 'Cinematic storytelling and fine-art color grading are deeply creative, meticulous processes. We deliver a high-energy teaser and social highlight reels within 2 to 3 weeks of the wedding. The complete documentary heirloom film and handcrafted physical albums are perfected and delivered within 8 to 12 weeks.',
+  },
+  {
+    id: 'faq-5',
+    question: 'How far in advance should we reserve our dates?',
+    answer: 'Because we only accept a limited number of weddings each season to preserve our uncompromising craftsmanship and personal dedication, prime wedding dates frequently book 6 to 10 months in advance. We recommend contacting us as soon as your wedding dates and venue are set.',
+  },
+];
+
+export const LOOKBOOK_DATA = [
+  {
+    id: 'look-1',
+    category: 'The Vows & Mandap',
+    title: 'Royal Heritage Weddings',
+    tag: 'Sacred Rituals',
+    image: '/assets/photos/stories/mudit-muskan/01_01.jpg',
+    subtitle: 'Crimson silks, Vedic fire, and tears of joy under palace arches.',
+  },
+  {
+    id: 'look-2',
+    category: 'Fine Art Chemistry',
+    title: 'Pre-Wedding Escapes',
+    tag: 'Raw Romance',
+    image: '/assets/photos/gallery/luxury-wedding-moments-jaisalmer-desert.jpg',
+    subtitle: 'Golden hour silhouettes and candid smiles across sweeping landscapes.',
+  },
+  {
+    id: 'look-3',
+    category: 'Cinematic Glory',
+    title: 'The Royal Baraat & Sangeet',
+    tag: 'Electric Euphoria',
+    image: '/assets/photos/gallery/rfm-wedding-photography-jodhpur-royal-baraat.jpg',
+    subtitle: 'Thumping dhol beats, dancing barefoot, and unforgettable celebration energy.',
+  },
+  {
+    id: 'look-4',
+    category: 'Bridal Elegance',
+    title: 'Handcrafted Heirlooms',
+    tag: 'Editorial Portraits',
+    image: '/assets/photos/gallery/indian-bride-candid-shots-jodhpur.jpeg',
+    subtitle: 'Quiet solitude, heirloom polki jewellery, and the serene gaze before the aisle.',
+  },
+  {
+    id: 'look-5',
+    category: 'Architectural Poetry',
+    title: 'Destination Grandeur',
+    tag: 'Timeless Palaces',
+    image: '/assets/photos/gallery/best-wedding-photographer-rajasthan-umaid-bhawan.jpg',
+    subtitle: 'Monumental architecture framing unscripted, deeply personal moments.',
+  },
+];
+
 export const STUDIO_DETAILS = {
   name: 'THE DRK WEDDINGS',
-  tagline: 'DRK Production | Award-Winning Photography Studio',
+  tagline: 'DRK Production | Award-Winning Photography & Cinema Studio',
   instagramHandle: '@thedrkweddings',
   instagramUrl: 'https://www.instagram.com/thedrkweddings/',
   youtubeHandle: '@thedrkstudio',
   youtubeUrl: 'https://www.youtube.com/@thedrkstudio?si=fET_T4Lh7kZIXH_h',
   location: 'Dipugarha, Hazaribagh, Jharkhand & Traveling Worldwide',
-  phone: '+91 91223 34455', // Placeholder studio hotline
-  whatsapp: '919122334455',
+  phone: '+91 99345 04101',
+  whatsapp: '919934504101',
   email: 'thedrkweddings@gmail.com',
   specializations: [
     'Fine Art Wedding Cinema',

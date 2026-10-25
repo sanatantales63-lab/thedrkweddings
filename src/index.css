@@ -9,33 +9,30 @@
   
   html {
     scroll-behavior: smooth;
-    background-color: #FFFFFF;
-    color: #1A1A1A;
+    background-color: #F5F5F0;
+    color: #1c1917;
   }
 
   body {
-    background-color: #fafafa;
-    color: #111827; /* text-gray-900 */
+    background-color: #F5F5F0;
+    color: #1c1917; /* stone-900 */
     overflow-x: hidden;
-    font-family: 'Inter', 'Poppins', sans-serif;
+    font-family: 'Outfit', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', Georgia, serif;
-    color: #1A1A1A;
-    letter-spacing: -0.015em;
+    color: #1c1917;
   }
 
   p {
-    color: #333333;
-    font-family: 'Inter', 'Poppins', sans-serif;
-    font-weight: 300;
+    font-family: 'Outfit', sans-serif;
   }
 }
 
-/* Scroll reveal and hover lift animations requested */
+/* Scroll reveal and animations */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -72,23 +69,22 @@
   transform: translateY(-4px);
 }
 
-/* Custom fine-art editorial typography classes matching Vijay Studio & HOTC */
+/* Shutterday subtle paper texture background */
+.bg-paper-texture {
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+/* Custom editorial typography classes */
 .font-editorial-italic {
-  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 .font-editorial-tag {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-weight: 500;
-  font-size: 10.5px;
-}
-
-.font-editorial-subhead {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.3em;
+  font-weight: 800;
+  font-size: 10px;
 }
