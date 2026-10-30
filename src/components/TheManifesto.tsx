@@ -5,7 +5,7 @@ export const TheManifesto: React.FC = () => {
   return (
     <section
       id="manifesto"
-      className="relative py-40 md:py-60 px-6 bg-center bg-cover bg-fixed overflow-hidden flex items-center justify-center"
+      className="relative py-40 md:py-60 px-6 bg-center bg-cover overflow-hidden flex items-center justify-center select-none"
       style={{
         backgroundImage: `linear-gradient(rgba(12, 10, 9, 0.65), rgba(12, 10, 9, 0.75)), url('/assets/photos/stories/mudit-muskan/01_03.jpg')`,
       }}

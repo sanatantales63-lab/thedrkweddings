@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu } from 'lucide-react';
 
 interface NavbarProps {
   onMenuClick: () => void;
   onOpenContact?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onOpenContact }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -15,141 +14,119 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onOpenContact }) =>
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Check if scrolled down > 150px and moving downwards -> hide navbar
       if (currentScrollY > 150 && currentScrollY > lastScrollY) {
         setHidden(true);
       } else {
         setHidden(false);
       }
-
       setScrolled(currentScrollY > 50);
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  const isDark = scrolled;
 
   return (
     <motion.nav
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: '-100%' },
-      }}
+      variants={{ visible: { y: 0 }, hidden: { y: '-100%' } }}
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-6 md:py-5 flex justify-between items-center transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#F5F5F0]/85 backdrop-blur-md border-b border-stone-200 shadow-sm'
-          : 'bg-transparent border-transparent'
+          ? 'bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-sm'
+          : 'bg-transparent'
       }`}
     >
-      {/* Left Navigation Items */}
-      <div
-        className={`flex items-center gap-6 md:gap-8 text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${
-          isDark ? 'text-stone-500' : 'text-white/90'
-        }`}
-      >
-        <span className={isDark ? 'text-stone-900 font-black' : 'text-white font-black'}>
-          Est. 2017
-        </span>
-        <button
-          onClick={() => scrollTo('lookbook')}
-          className={`hidden md:inline transition-colors hover:scale-105 ${
-            isDark ? 'hover:text-stone-900 text-stone-500' : 'hover:text-white text-white/80'
-          }`}
-        >
-          Lookbook
-        </button>
-        <button
-          onClick={() => scrollTo('packages')}
-          className={`hidden md:inline transition-colors hover:scale-105 ${
-            isDark ? 'hover:text-stone-900 text-stone-500' : 'hover:text-white text-white/80'
-          }`}
-        >
-          Collections
-        </button>
-        <button
-          onClick={() => scrollTo('testimonials')}
-          className={`hidden lg:inline transition-colors hover:scale-105 ${
-            isDark ? 'hover:text-stone-900 text-stone-500' : 'hover:text-white text-white/80'
-          }`}
-        >
-          Praise
-        </button>
-      </div>
+      <div className="w-full px-4 sm:px-6 md:px-10 py-4 md:py-5 flex items-center justify-between relative">
 
-      {/* Center Brand Logo / Wordmark */}
-      <div
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center cursor-pointer select-none group"
-      >
-        <div className="flex flex-col items-center">
+        {/* ── LEFT: Desktop only nav links ── */}
+        <div className={`hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.35em] transition-colors ${
+          scrolled ? 'text-stone-500' : 'text-white/90'
+        }`}>
+          <span className={`font-black ${scrolled ? 'text-stone-800' : 'text-white'}`}>
+            Est. 2017
+          </span>
+          <button
+            onClick={() => scrollTo('testimonials')}
+            className={`transition-colors hover:opacity-100 ${
+              scrolled ? 'text-stone-500 hover:text-stone-900' : 'text-white/80 hover:text-white'
+            }`}
+          >
+            Testimonials
+          </button>
+          <button
+            onClick={() => scrollTo('lookbook')}
+            className={`transition-colors hover:opacity-100 ${
+              scrolled ? 'text-stone-500 hover:text-stone-900' : 'text-white/80 hover:text-white'
+            }`}
+          >
+            Lookbook
+          </button>
+        </div>
+
+        {/* ── MOBILE LEFT: Est. only ── */}
+        <div className={`md:hidden text-[9px] font-black uppercase tracking-[0.25em] ${
+          scrolled ? 'text-stone-800' : 'text-white'
+        }`}>
+          Est. 2017
+        </div>
+
+        {/* ── CENTER: Logo (absolute centered) ── */}
+        <div
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="absolute left-1/2 -translate-x-1/2 cursor-pointer select-none group"
+        >
           <img
-            src={isDark ? '/assets/logos/drk-logo-clean-dark.png' : '/assets/logos/drk-logo-white-banner.png'}
+            src={scrolled ? '/assets/logos/drk-logo-clean-dark.png' : '/assets/logos/drk-logo-clean-white.png'}
             alt="The DRK Weddings"
-            className="h-8 md:h-10 w-auto object-contain transition-all duration-300 drop-shadow-sm group-hover:scale-[1.02]"
+            className="h-7 sm:h-8 md:h-10 w-auto object-contain transition-all duration-300 group-hover:opacity-80"
             onError={(e) => {
               const target = e.currentTarget;
               target.style.display = 'none';
-              const textFallback = target.nextElementSibling as HTMLElement;
-              if (textFallback) textFallback.style.display = 'flex';
+              const fallback = target.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'block';
             }}
           />
-          <div
+          <span
             style={{ display: 'none' }}
-            className={`flex-col items-center leading-none ${
-              isDark ? 'text-stone-900' : 'text-white'
+            className={`font-serif text-base md:text-xl tracking-tight font-medium whitespace-nowrap ${
+              scrolled ? 'text-stone-900' : 'text-white'
             }`}
           >
-            <span className="font-serif text-lg md:text-xl tracking-tight font-medium">
-              THE DRK WEDDINGS
-            </span>
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] opacity-70">
-              Fine Art Cinema
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Action & Menu Toggle */}
-      <div className="flex items-center gap-4 md:gap-8">
-        <button
-          onClick={() => {
-            if (onOpenContact) onOpenContact();
-            else scrollTo('contact');
-          }}
-          className={`hidden md:inline-block text-[10px] font-black uppercase tracking-[0.3em] transition-all px-5 py-2.5 border ${
-            isDark
-              ? 'border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white'
-              : 'border-white/80 text-white hover:bg-white hover:text-stone-900'
-          }`}
-        >
-          Book Session
-        </button>
-
-        <button
-          onClick={onMenuClick}
-          className={`p-2 transition-colors flex items-center gap-2 ${
-            isDark ? 'text-stone-900 hover:text-stone-600' : 'text-white hover:text-stone-200'
-          }`}
-          aria-label="Open navigation drawer"
-        >
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] hidden sm:inline">
-            Menu
+            THE DRK WEDDINGS
           </span>
-          <Menu size={22} strokeWidth={1.5} />
-        </button>
+        </div>
+
+        {/* ── RIGHT: Gallery (desktop) + Book Session ── */}
+        <div className="flex items-center gap-3 md:gap-8">
+          <button
+            onClick={() => scrollTo('spotlight')}
+            className={`hidden md:inline text-[10px] font-black uppercase tracking-[0.35em] transition-colors ${
+              scrolled ? 'text-stone-500 hover:text-stone-900' : 'text-white/80 hover:text-white'
+            }`}
+          >
+            Gallery
+          </button>
+
+          <button
+            onClick={() => {
+              if (onOpenContact) onOpenContact();
+              else scrollTo('contact');
+            }}
+            className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] px-3 py-2 md:px-5 md:py-2.5 border transition-all duration-200 whitespace-nowrap ${
+              scrolled
+                ? 'border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white'
+                : 'border-white text-white hover:bg-white hover:text-stone-900'
+            }`}
+          >
+            Book Session
+          </button>
+        </div>
       </div>
     </motion.nav>
   );

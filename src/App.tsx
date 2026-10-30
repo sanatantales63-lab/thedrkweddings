@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { Hero } from './components/Hero';
+import { Loader } from './components/Loader';
 import { TheManifesto } from './components/TheManifesto';
 import { HorizontalSlider } from './components/HorizontalSlider';
 import { MagazineAbout } from './components/MagazineAbout';
@@ -23,76 +25,104 @@ export function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedFilm, setSelectedFilm] = useState<WeddingFilm | null>(null);
   const [selectedGalleryItem, setSelectedGalleryItem] = useState<GalleryItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [heroReady, setHeroReady] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
 
-  // IntersectionObserver for staggered .reveal animations
+  // ── Lenis smooth scroll setup ──
+  useEffect(() => {
+    // Disable on touch devices to avoid interference with native swipe/touch gestures
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    if (isTouch) return;
+
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+    });
+
+    lenisRef.current = lenis;
+
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // Freeze smooth-scroll while the loader curtain is down
+  useEffect(() => {
+    if (loading) lenisRef.current?.stop();
+    else lenisRef.current?.start();
+  }, [loading]);
+
+  // Always land on the hero after a refresh
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  }, []);
+
+  // ── IntersectionObserver for .reveal animations ──
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('active');
         });
       },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px',
-      }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
-
-    const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach((el) => observer.observe(el));
-
-    return () => {
-      observer.disconnect();
-    };
+    const els = document.querySelectorAll('.reveal');
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   const handleOpenContact = () => {
     const el = document.getElementById('contact');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handlePlayHeroReel = () => {
-    if (FEATURED_FILMS.length > 0) {
-      setSelectedFilm(FEATURED_FILMS[0]);
-    }
+    if (FEATURED_FILMS.length > 0) setSelectedFilm(FEATURED_FILMS[0]);
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] text-stone-900 selection:bg-stone-900 selection:text-stone-100 overflow-x-hidden font-sans">
-      {/* 1. Header Navigation matching Shutterday */}
+    <div className="min-h-screen bg-[#F5F5F0] text-stone-900 selection:bg-stone-900 selection:text-stone-100 font-sans">
+      {loading && <Loader onReveal={() => setHeroReady(true)} onDone={() => setLoading(false)} />}
+
+      {/* Navbar */}
       <Navbar
         onMenuClick={() => setIsSidebarOpen(true)}
         onOpenContact={handleOpenContact}
       />
 
-      {/* 2. Slide-out Drawer Navigation */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        setIsOpen={setIsSidebarOpen}
-      />
+      {/* Slide-out Drawer */}
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-      {/* Main Experience Stream */}
       <main>
-        {/* Hero Fullscreen Cinema Banner */}
-        <Hero onPlayFilm={handlePlayHeroReel} />
+        {/* 1 — Hero fullscreen */}
+        <Hero onPlayFilm={handlePlayHeroReel} ready={heroReady} />
 
-        {/* The DRK Manifesto */}
+        {/* 2 — The DRK Manifesto */}
         <TheManifesto />
 
-        {/* Seamless Horizontal Visual Flow Strip */}
+        {/* 3 — Horizontal sticky photo reel */}
         <HorizontalSlider />
 
-        {/* Magazine About: Editorial • Volume 01 ("the unseen poetry.") */}
+        {/* 4 — Magazine About */}
         <MagazineAbout />
 
-        {/* Spotlight Grid: Asymmetric Signature Moments */}
+        {/* 5 — Spotlight Grid */}
         <SpotlightGrid onOpenLightbox={setSelectedGalleryItem} />
 
-        {/* The Lookbook: Curated Portfolio 2026 */}
+        {/* 6 — Lookbook (sticky horizontal) */}
         <Lookbook
           onSelectCategory={() => {
             const el = document.getElementById('spotlight');
@@ -100,39 +130,27 @@ export function App() {
           }}
         />
 
-        {/* Real Client Praise & Testimonials */}
+        {/* 7 — Testimonials */}
         <Testimonials />
 
-        {/* Cinematic Video Showcase ("WATCH Magic.") */}
+        {/* 8 — Video Showcase */}
         <VideoSection onPlayFilm={(film) => setSelectedFilm(film)} />
 
-        {/* Collections & Investment (Packages) */}
+        {/* 9 — Collections / Inquiry CTA */}
         <Packages />
 
-        {/* Common Inquiries FAQ Section */}
+        {/* 10 — FAQ */}
         <FAQSection />
 
-        {/* Contact & Date Reservation Hero */}
+        {/* 11 — Contact */}
         <ContactSection />
       </main>
 
-      {/* Shutterday Minimalist Stone Footer */}
       <Footer />
-
-      {/* Floating WhatsApp Quick-Chat Widget */}
       <FloatingWhatsApp />
 
-      {/* Video Modal Player (YouTube @thedrkstudio) */}
-      <VideoModal
-        film={selectedFilm}
-        onClose={() => setSelectedFilm(null)}
-      />
-
-      {/* Gallery Photo Lightbox */}
-      <GalleryLightbox
-        item={selectedGalleryItem}
-        onClose={() => setSelectedGalleryItem(null)}
-      />
+      <VideoModal film={selectedFilm} onClose={() => setSelectedFilm(null)} />
+      <GalleryLightbox item={selectedGalleryItem} onClose={() => setSelectedGalleryItem(null)} />
     </div>
   );
 }
